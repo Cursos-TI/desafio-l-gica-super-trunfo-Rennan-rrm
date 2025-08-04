@@ -1,43 +1,86 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-// Desafio Super Trunfo - Países
-// Tema 2 - Comparação das Cartas
-// Este código inicial serve como base para o desenvolvimento do sistema de comparação de cartas de cidades. 
-// Siga os comentários para implementar cada parte do desafio.
+// Definição de uma carta
+struct Carta {
+    char nome[30];
+    int forca;
+    int velocidade;
+    int inteligencia;
+};
+
+// Função para exibir uma carta
+void mostrarCarta(struct Carta carta) {
+    printf("Nome: %s\n", carta.nome);
+    printf("Força: %d\n", carta.forca);
+    printf("Velocidade: %d\n", carta.velocidade);
+    printf("Inteligência: %d\n", carta.inteligencia);
+}
 
 int main() {
-    // Definição das variáveis para armazenar as propriedades das cidades
-    // Você pode utilizar o código do primeiro desafio
+    srand(time(NULL));
 
-    
-    // Cadastro das Cartas:
-    // Implemente a lógica para solicitar ao usuário que insira os dados das cidades
-    // utilizando a função scanf para capturar as entradas.
-    // utilize o código do primeiro desafio
+    // Criação de 3 cartas
+    struct Carta cartas[3] = {
+        {"Dragão", 90, 60, 40},
+        {"Mago", 40, 50, 95},
+        {"Guerreiro", 80, 70, 60}
+    };
 
-    // Exemplo:
-    // printf("Digite o código da cidade: ");
-    // scanf("%s", codigo);
-    // 
-    // (Repita para cada propriedade)
+    // Escolher uma carta aleatória para o jogador e para o computador
+    int idxJogador = rand() % 3;
+    int idxComputador;
 
-    // Comparação de Cartas:
-    // Desenvolva a lógica de comparação entre duas cartas.
-    // Utilize estruturas de decisão como if, if-else para comparar atributos como população, área, PIB, etc.
+    // Evitar que peguem a mesma carta
+    do {
+        idxComputador = rand() % 3;
+    } while (idxComputador == idxJogador);
 
-    // Exemplo:
-    // if (populacaoA > populacaoB) {
-    //     printf("Cidade 1 tem maior população.\n");
-    // } else {
-    //     printf("Cidade 2 tem maior população.\n");
-    // }
+    struct Carta jogador = cartas[idxJogador];
+    struct Carta computador = cartas[idxComputador];
 
-    // Exibição dos Resultados:
-    // Após realizar as comparações, exiba os resultados para o usuário.
-    // Certifique-se de que o sistema mostre claramente qual carta venceu e com base em qual atributo.
+    // Mostrar carta do jogador
+    printf("Sua carta:\n");
+    mostrarCarta(jogador);
 
-    // Exemplo:
-    // printf("A cidade vencedora é: %s\n", cidadeVencedora);
+    // Jogador escolhe atributo
+    int escolha;
+    printf("\nEscolha o atributo para competir:\n");
+    printf("1 - Força\n2 - Velocidade\n3 - Inteligência\n");
+    scanf("%d", &escolha);
+
+    int valorJogador, valorComputador;
+    switch (escolha) {
+        case 1:
+            valorJogador = jogador.forca;
+            valorComputador = computador.forca;
+            break;
+        case 2:
+            valorJogador = jogador.velocidade;
+            valorComputador = computador.velocidade;
+            break;
+        case 3:
+            valorJogador = jogador.inteligencia;
+            valorComputador = computador.inteligencia;
+            break;
+        default:
+            printf("Escolha inválida!\n");
+            return 1;
+    }
+
+    // Mostrar carta do computador
+    printf("\nCarta do computador:\n");
+    mostrarCarta(computador);
+
+    // Verificar resultado
+    printf("\nResultado:\n");
+    if (valorJogador > valorComputador)
+        printf("Você venceu!\n");
+    else if (valorJogador < valorComputador)
+        printf("Você perdeu!\n");
+    else
+        printf("Empate!\n");
 
     return 0;
 }
